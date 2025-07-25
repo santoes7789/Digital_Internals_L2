@@ -188,7 +188,7 @@ function updateStats() {
 
 		const time = millisecondsToTime(current_times.at(i)["value"]);
 
-		newRow.setAttribute("type", "button");
+		newRow.style.cursor = "pointer";
 		newRow.setAttribute("data-bs-toggle", "modal");
 		newRow.setAttribute("data-bs-target", "#time-info-modal");
 
