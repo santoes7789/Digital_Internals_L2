@@ -270,13 +270,15 @@ document.addEventListener("keyup", function(event) {
 
 function waitTimer() {
 	timerState = "waiting"
-	timer.style.color = "red";
+	timer.classList.remove("text-danger", "text-success");
+	timer.classList.add("text-danger");
 	timeoutId = setTimeout(readyTimer, waitTime);
 }
 
 function readyTimer() {
 	timerState = "ready";
-	timer.style.color = "green";
+	timer.classList.remove("text-danger", "text-success");
+	timer.classList.add("text-success");
 	timer.textContent = "0.000";
 	timerBackground.style.zIndex = 10;
 	timerFading.classList.add("show");
@@ -285,7 +287,7 @@ function readyTimer() {
 
 function startTimer() {
 	timerState = "active";
-	timer.style.color = "black";
+	timer.classList.remove("text-danger", "text-success");
 
 	startTime = Date.now();
 	updateInterval = setInterval(updateTimer, 10);
@@ -293,7 +295,7 @@ function startTimer() {
 
 function resetTimer() {
 	timerState = "finished";
-	timer.style.color = "black";
+	timer.classList.remove("text-danger", "text-success");
 	clearTimeout(timeoutId);
 	clearInterval(updateInterval)
 }
@@ -332,30 +334,30 @@ function millisecondsToTime(milli) {
 
 }
 
-const ctx = document.getElementById('myChart');
-
-
-Chart.defaults.font.size = 10;
-const data = {
-	labels: [],
-	datasets: [{
-		label: current_session,
-		data: [],
-	}]
-};
-
-const chart = new Chart(ctx, { type: "line", data: data });
-
+// const ctx = document.getElementById('myChart');
+//
+//
+// Chart.defaults.font.size = 10;
+// const data = {
+// 	labels: [],
+// 	datasets: [{
+// 		label: current_session,
+// 		data: [],
+// 	}]
+// };
+//
+// const chart = new Chart(ctx, { type: "line", data: data });
+//
 function updateChart() {
-	const raw_data = current_times.map(time => time["value"] / 1000);
-	chart.data.datasets[0].data = raw_data;
-	chart.data.labels = [];
-	for (let i = 1; i <= raw_data.length; i++) {
-		chart.data.labels.push(i);
-	}
-
-	chart.update();
-
-	console.log(raw_data)
-
+	// const raw_data = current_times.map(time => time["value"] / 1000);
+	// chart.data.datasets[0].data = raw_data;
+	// chart.data.labels = [];
+	// for (let i = 1; i <= raw_data.length; i++) {
+	// 	chart.data.labels.push(i);
+	// }
+	//
+	// chart.update();
+	//
+	// console.log(raw_data)
+	//
 }
