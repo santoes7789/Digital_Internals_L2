@@ -323,14 +323,22 @@ function millisecondsToTime(milli) {
 	const milliseconds = Math.floor(milli % 1000);
 	const seconds = Math.floor(milli / 1000) % 60;
 	const minutes = Math.floor(milli / 1000 / 60) % 60;
-	// const hours = Math.floor(milliseconds / 1000 / 60 / 60);
+	const hours = Math.floor(milliseconds / 1000 / 60 / 60);
 
-	let str = "";
+	let hoursStr = "";
+	let minutesStr = "";
+	let secondsStr = String(seconds) + ".";
+	let milliStr = String(milliseconds).padStart(3, "0");
 	if (minutes) {
-		str += String(minutes) + ":";
+		minutesStr = String(minutes) + ":";
+		secondsStr = String(seconds).padStart(2, "0") + ".";
 	}
-	str += String(seconds) + "." + String(milliseconds).padStart(3, "0");
-	return str;
+	if (hours) {
+		hoursStr = String(hours) + ":"
+		minutesStr = String(minutes).padStart(2, "0") + ":";
+	}
+
+	return hoursStr + minutesStr + secondsStr + milliStr;
 
 }
 
