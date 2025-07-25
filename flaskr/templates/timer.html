@@ -2,7 +2,7 @@
 
 {% block content %}
   <div class="d-flex justify-content-center align-items-center vw-100 vh-100 position-fixed" id="timer-background">
-		<h2 id="timer" class="position-fixed z-1">0.000</h2>
+		<h1 id="timer" class="position-fixed z-1">0.000</h1>
 		<div class="position-absolute z-0 w-100 h-100 bg-body fade" id="fading-bg"></div>
 	</div>
 
@@ -19,7 +19,18 @@
 		<div class="dropup">
 			<p class="d-inline">session:</p>
 			<strong id="session-text" type="button" class="dropdown-toggle" data-bs-toggle="dropdown">3x3</strong>
-			<ul class="dropdown-menu no-min-width" id="session-dropdown">
+
+
+			<ul class="session-dropdown-container dropdown-menu no-min-width p-1">
+				<li>
+				<div class="input-group">
+					<input id="add-session-input" type="text" class="form-control m-0" placeholder="New Session">
+					<button id="add-session-btn" class="btn btn-outline-primary" type="button">+</button>
+				</div>
+				</li>
+				<li><hr class="dropdown-divider"></li>
+				<div id="session-dropdown">
+				</div>
 			</ul>
 		</div>
 	</div>

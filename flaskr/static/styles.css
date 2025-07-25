@@ -1,5 +1,6 @@
 html,
 body {
+	font-family: "Poppins";
 	height: 100%;
 }
 
@@ -46,6 +47,12 @@ p {
 	min-width: 0;
 }
 
+.session-dropdown-container {
+	width: 200px;
+}
+
 #timer {
-	font-family: monospace;
+	font-family: "Share Tech Mono";
+	/* font-family: "monospace"; */
+	font-size: 4rem;
 }

@@ -1,13 +1,8 @@
 let all_times = {
-	"2x2": [],
 	"3x3": [],
-	"4x4": [],
-	"5x5": [],
 }
 let current_session = "3x3";
 let current_times = all_times[current_session];
-
-const sessions = ["2x2", "3x3", "4x4", "5x5"];
 let is_authenticated = false;
 
 updateSessions();
@@ -129,6 +124,20 @@ deleteTimeBtn.addEventListener("click", event => {
 	deleteTime(current_time_selected);
 })
 
+document.getElementById("add-session-btn").addEventListener("click", event => {
+	const sessionName = document.getElementById("add-session-input").value;
+	document.getElementById("add-session-input").value = "";
+	console.log("Creating session: ", sessionName);
+	if (sessionName.trim()) {
+		addSession(sessionName);
+	}
+})
+
+function addSession(session_name) {
+	all_times[session_name] = [];
+	changeSession(session_name);
+}
+
 function changeSession(session) {
 	current_session = session;
 	current_times = all_times[current_session];
@@ -137,6 +146,7 @@ function changeSession(session) {
 	updateChart();
 
 }
+
 function updateSessions() {
 	document.getElementById("session-text").textContent = current_session;
 	const sessionDropdown = document.getElementById("session-dropdown");
@@ -340,7 +350,7 @@ function updateChart() {
 	const raw_data = current_times.map(time => time["value"] / 1000);
 	chart.data.datasets[0].data = raw_data;
 	chart.data.labels = [];
-	for (let i = 0; i < raw_data.length; i++) {
+	for (let i = 1; i <= raw_data.length; i++) {
 		chart.data.labels.push(i);
 	}
 
