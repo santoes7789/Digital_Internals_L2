@@ -12,7 +12,7 @@ def timer():
     return render_template("timer.html", user=current_user)
 
 
-@views.route("/times", methods=["POST", "GET", "DELETE"])
+@views.route("/times", methods=["POST", "GET", "DELETE", "PUT"])
 def times():
     if request.method == "POST":
         data = request.get_json()
@@ -40,7 +40,16 @@ def times():
             return "", 204
         else:
             return jsonify({"error": "Time not found"}), 404
-
+    elif request.method == "PUT":
+        data = request.get_json()
+        time_entry = Time.query.filter_by(timestamp=data["timestamp"]).first()
+        if time_entry:
+            for key, value in data.items():
+                setattr(time_entry, key, value)
+            db.session.commit()
+            return "", 204
+        else:
+            return jsonify({"error": "Time not found"}), 404
     else:
         times_list = {}
         if current_user.is_authenticated:

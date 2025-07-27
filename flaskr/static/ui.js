@@ -143,7 +143,6 @@ function timeToString(time) {
 	let milliseconds = time["value"];
 
 	let mods = time["modifiers"].split(",");
-	let result = "";
 	if (mods.includes("+2")) {
 		milliseconds += 2000;
 		return formatMilliseconds(milliseconds) + "+";

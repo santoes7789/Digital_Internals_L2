@@ -79,4 +79,23 @@ function postDeleteTime(time) {
 		})
 }
 
-export { checkAuth, fetchData, postNewTime, postDeleteTime };
+function putNewTime(time) {
+	fetch("/times", {
+		method: "PUT",
+		headers: {
+			"Content-Type": "application/json",
+		},
+		body: JSON.stringify(time)
+	})
+		.then(response => {
+			if (response.status == 204) {
+				console.log("Sucessfully changed time entry on server");
+			} else {
+				console.log("Failed to change time entry on server");
+			}
+		}).catch(error => {
+			console.error("Error:", error);
+		})
+}
+
+export { checkAuth, fetchData, postNewTime, postDeleteTime, putNewTime };

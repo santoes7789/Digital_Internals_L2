@@ -1,5 +1,5 @@
 import * as ui from "./ui.js"
-import { checkAuth, fetchData, postDeleteTime, postNewTime } from "./network.js";
+import { checkAuth, fetchData, postDeleteTime, postNewTime, putNewTime } from "./network.js";
 
 window.all_times = { "3x3": [] }
 window.current_session = "3x3";
@@ -17,7 +17,6 @@ checkAuth((is_authenticated) => {
 		ui.updateSessions();
 	})
 })
-
 
 
 function addTime(time) {
@@ -56,6 +55,8 @@ function addModifier(time_index, modifier, toggle = false) {
 	mods.sort();
 
 	current_times.at(time_index).modifiers = mods.join();
+
+	putNewTime(current_times.at(time_index));
 
 	ui.updateTable();
 	ui.updateModal();
