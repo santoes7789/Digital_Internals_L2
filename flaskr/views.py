@@ -16,8 +16,15 @@ def timer():
 def times():
     if request.method == "POST":
         data = request.get_json()
+
         new_time = Time(
-            timestamp=data["timestamp"], value=data["value"], user_id=current_user.id, session=data["session"])
+            timestamp=data["timestamp"],
+            value=data["value"],
+            session=data["session"],
+            modifiers=data["modifiers"],
+            user_id=current_user.id
+        )
+
         db.session.add(new_time)
         db.session.commit()
         return "", 204
@@ -41,7 +48,11 @@ def times():
                 if time.session not in times_list:
                     times_list[time.session] = []
                 times_list[time.session].append(
-                    {"timestamp": time.timestamp, "value": time.value})
+                    {
+                        "timestamp": time.timestamp,
+                        "value": time.value,
+                        "modifiers": time.modifiers
+                    })
             return jsonify(times_list), 200
         else:
             return jsonify({"error": "User not found"}), 404

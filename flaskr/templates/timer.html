@@ -60,20 +60,25 @@
 					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 				</div>
 				<div class="modal-body d-flex align-items-center">
-					<h1 class="time-heading flex-grow-1">1.00</h1>
+					<div class="flex-grow-1">
+						<h1 class="time-heading">1.00</h1>
+						<p class="modifiers-text"></p>
+					</div>
+					<button type="button" class="btn btn-outline-info me-2 plus-2">+2</button>
+					<button type="button" class="btn btn-outline-warning dnf">DNF</button>
 				</div>
 				<div class="modal-footer d-flex">
 					<div class="flex-grow-1">
 						<p class="date-text fs-7"></p>
 						<p class="time-text fs-7"></p>
 					</div>
-					<button type="button" class="btn btn-danger" id="delete-time-btn"data-bs-dismiss="modal">Delete</button>
+					<button type="button" class="btn btn-danger" id="delete-time-btn" data-bs-dismiss="modal">Delete</button>
 				</div>
 			</div>
 		</div>
 	</div>
 
 
-	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-	<script src="static/timer.js"></script>
+	<!-- <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> -->
+	<script type="module" src="static/timer.js"></script>
 {% endblock %}

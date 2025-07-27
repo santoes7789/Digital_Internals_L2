@@ -15,4 +15,5 @@ class Time(db.Model):
     timestamp = db.Column(db.Integer)
     value = db.Column(db.Integer)
     session = db.Column(db.String(150))
+    modifiers = db.Column(db.String(150))
     user_id = db.Column(db.Integer, db.ForeignKey("user.id"))
