@@ -29,7 +29,7 @@ function updateSessions() {
 const timer = document.getElementById("timer");
 function updateTimer(startTime) {
 	const timeInMilliseconds = Date.now() - startTime;
-	timer.textContent = millisecondsToTime(timeInMilliseconds);
+	timer.textContent = formatMilliseconds(timeInMilliseconds);
 	return timeInMilliseconds;
 }
 
@@ -40,9 +40,9 @@ const bestText = document.getElementById("best-text")
 const ao5Text = document.getElementById("ao5-text")
 const ao12Text = document.getElementById("ao12-text")
 function updateStats(best, ao5, ao12) {
-	const bestStr = best ? millisecondsToTime(best) : "--";
-	const ao5Str = ao5 ? millisecondsToTime(ao5) : "--";
-	const ao12Str = ao12 ? millisecondsToTime(ao12) : "--";
+	const bestStr = best ? formatMilliseconds(best) : "--";
+	const ao5Str = ao5 ? formatMilliseconds(ao5) : "--";
+	const ao12Str = ao12 ? formatMilliseconds(ao12) : "--";
 
 	bestText.textContent = bestStr;
 	ao5Text.textContent = ao5Str;
@@ -67,7 +67,7 @@ function updateTable() {
 		// Insert a new row at the end of the table (-1 or omitted index)
 		const newRow = table.insertRow(0);
 
-		const time = millisecondsToTime(current_times.at(i)["value"]);
+		const time = timeToString(current_times.at(i));
 		const mods = current_times.at(i)["modifiers"].split(",");
 
 		newRow.style.cursor = "pointer";
@@ -100,31 +100,59 @@ const modifierText = timeModal.querySelector(".modifiers-text");
 const timeText = timeModal.querySelector(".time-text");
 const dateText = timeModal.querySelector(".date-text");
 
-timeModal.addEventListener('shown.bs.modal', () => {
-	const current_time_selected = window.current_times.at(window.current_time_index);
+const plusTwoBtn = timeModal.querySelector(".plus-2");
+const dnfBtn = timeModal.querySelector(".dnf");
+
+function updateModal() {
+	const current_time_selected =
+		window.all_times[window.current_session].at(window.current_time_index);
 
 	modalTitle.textContent = "Solve No. " + (window.current_time_index + 1);
-	timeHeading.textContent = current_time_selected["value"];
+	timeHeading.textContent = timeToString(current_time_selected);
 
 	const mods = current_time_selected["modifiers"].split(",");
+
+	const modifiers = [];
 	if (mods.includes("dnf")) {
-		modifierText.textContent += "Did not finish";
+		modifiers.push("Did not finish");
+		dnfBtn.classList.remove("btn-outline-primary");
+		dnfBtn.classList.add("btn-primary");
+	} else {
+		dnfBtn.classList.add("btn-outline-primary");
+		dnfBtn.classList.remove("btn-primary");
 	}
 	if (mods.includes("+2")) {
-		if (modifierText.textContent) {
-			modifierText.textContent += ", ";
-		}
-		modifierText.textContent += "+2"
+		modifiers.push("+2");
+		plusTwoBtn.classList.remove("btn-outline-primary");
+		plusTwoBtn.classList.add("btn-primary");
+	} else {
+		plusTwoBtn.classList.add("btn-outline-primary");
+		plusTwoBtn.classList.remove("btn-primary");
 	}
+
+	modifierText.textContent = modifiers.join(", ");
 
 	const date = new Date(current_time_selected["timestamp"]);
 	dateText.textContent = date.toDateString();
 	timeText.textContent = date.toTimeString().split(' ')[0];
-})
+
+}
 
 
+function timeToString(time) {
+	let milliseconds = time["value"];
 
-function millisecondsToTime(milli) {
+	let mods = time["modifiers"].split(",");
+	let result = "";
+	if (mods.includes("+2")) {
+		milliseconds += 2000;
+		return formatMilliseconds(milliseconds) + "+";
+	} else {
+		return formatMilliseconds(milliseconds);
+	}
+}
+
+function formatMilliseconds(milli) {
 	const milliseconds = Math.floor(milli % 1000);
 	const seconds = Math.floor(milli / 1000) % 60;
 	const minutes = Math.floor(milli / 1000 / 60) % 60;
@@ -142,13 +170,12 @@ function millisecondsToTime(milli) {
 		hoursStr = String(hours) + ":"
 		minutesStr = String(minutes).padStart(2, "0") + ":";
 	}
-
 	return hoursStr + minutesStr + secondsStr + milliStr;
-
 }
 
 export {
 	updateTable,
+	updateModal,
 	updateStats,
 	updateSessions,
 	updateTimer,

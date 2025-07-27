@@ -30,9 +30,9 @@ function addTime(time) {
 	ui.updateStats(getBest(), getAoX(5), getAoX(12));
 }
 
-function deleteTime(time) {
+function deleteTime(index) {
 	const current_times = window.all_times[window.current_session];
-	const index = current_times.indexOf(time);
+	const time = current_times.at(index);
 	if (index == -1) return;
 	current_times.splice(index, 1);
 	postDeleteTime(time);
@@ -41,24 +41,24 @@ function deleteTime(time) {
 	ui.updateStats(getBest(), getAoX(5), getAoX(12));
 }
 
-function addModifier(time, modifier) {
+function addModifier(time_index, modifier, toggle = false) {
 	const current_times = window.all_times[window.current_session];
 
-	let mods = time["modifiers"];
-	mods = mods ? mods.split(",") : [];
+	const curr_mods = current_times.at(time_index)["modifiers"];
+	let mods = curr_mods ? curr_mods.split(",") : [];
 
 	if (!mods.includes(modifier)) {
 		mods.push(modifier);
+	} else if (toggle) {
+		mods = mods.filter(m => m !== modifier);
 	}
 
 	mods.sort();
-	for (let _time of current_times) {
-		if (_time.timestamp === time.timestamp) {
-			_time.modifiers = mods.join();
-		}
-	}
 
-	// updateStats();
+	current_times.at(time_index).modifiers = mods.join();
+
+	ui.updateTable();
+	ui.updateModal();
 }
 
 function addSession(session_name) {
@@ -80,17 +80,17 @@ function changeSession(session) {
 const timeModal = document.getElementById("time-info-modal");
 const deleteTimeBtn = document.getElementById("delete-time-btn");
 deleteTimeBtn.addEventListener("click", event => {
-	deleteTime(current_time_selected);
+	deleteTime(window.current_time_index);
 })
 
 const plusTwoBtn = timeModal.querySelector(".plus-2");
 plusTwoBtn.addEventListener("click", event => {
-	addModifier(current_time_selected, "+2");
+	addModifier(window.current_time_index, "+2", true);
 })
 
 const dnfBtn = timeModal.querySelector(".dnf");
 dnfBtn.addEventListener("click", event => {
-	addModifier(current_time_selected, "dnf");
+	addModifier(window.current_time_index, "dnf", true);
 })
 
 const addSessionBtn = document.getElementById("add-session-btn");
@@ -109,6 +109,7 @@ ui.setOnClickSessionDropdown((key) => {
 
 ui.setOnClickTableRow((index) => {
 	window.current_time_index = index;
+	ui.updateModal();
 })
 
 function getBest() {
@@ -146,7 +147,7 @@ document.addEventListener("keydown", function(event) {
 		if (event.code == "Space") {
 			waitTimer();
 		} else if (event.shiftKey && event.code == "Backspace") {
-			deleteTime(window.all_times[window.current_session].at(-1));
+			deleteTime(window.all_times[window.current_session].length - 1);
 		}
 	} else if (timerState == "active") {
 		stopTimer();
