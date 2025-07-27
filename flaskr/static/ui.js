@@ -29,7 +29,16 @@ function updateSessions() {
 const timer = document.getElementById("timer");
 function updateTimer(startTime) {
 	const timeInMilliseconds = Date.now() - startTime;
-	timer.textContent = formatMilliseconds(timeInMilliseconds);
+	let formatted = formatMilliseconds(timeInMilliseconds);
+	for (let i = 0; i < formatted.length; i++) {
+		const char = formatted[i];
+		if (char < "0" || char > "9") {
+			const replace = '<span class="text-primary">' + char + '</span>';
+			formatted = formatted.substring(0, i) + replace + formatted.substring(i + 1);
+			i += replace.length;
+		}
+	}
+	timer.innerHTML = formatted;
 	return timeInMilliseconds;
 }
 

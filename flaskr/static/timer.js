@@ -177,7 +177,7 @@ function readyTimer() {
 	timerState = "ready";
 	timer.classList.remove("text-danger", "text-success");
 	timer.classList.add("text-success");
-	timer.textContent = "0.000";
+	timer.innerHTML = '0<span class="text-primary">.</span>000';
 	timerBackground.style.zIndex = 10;
 	timerFading.classList.add("show");
 

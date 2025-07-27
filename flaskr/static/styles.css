@@ -30,8 +30,8 @@ p {
 }
 
 .element-container {
-	position: fixed;
-	margin: 0.5rem;
+	margin: 1rem;
+	padding: 1rem;
 }
 
 .timetable-wrapper {
@@ -49,6 +49,18 @@ p {
 
 .session-dropdown-container {
 	width: 200px;
+}
+
+.vr {
+	--bs-text-opacity: 1;
+	color: rgba(var(--bs-primary-rgb), var(--bs-text-opacity));
+	opacity: .75;
+}
+
+.nav-link:hover {
+	--bs-text-opacity: 1;
+	color: rgba(var(--bs-primary-rgb), var(--bs-text-opacity));
+
 }
 
 #timer {
