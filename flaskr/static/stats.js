@@ -1,58 +1,28 @@
-import { checkAuth, fetchData } from "./network.js";
+function getBest() {
+	const current_times = window.all_times[window.current_session];
+	if (current_times.length == 0) return null;
+	const timesOnlyArray = current_times.map(time => time["value"]);
+	return Math.min(...timesOnlyArray);
+}
 
-const ctx = document.getElementById('myChart');
+function getAoX(x, index = -1) {
+	const current_times = window.all_times[window.current_session];
+	if (current_times.length < x || index - x + 1 < 0) {
+		return null;
+	}
+	let times;
+	if (index != -1) {
+		times = current_times.slice(index - x + 1, index + 1).map(time => time["value"]);
+	} else {
+		times = current_times.slice(-x).map(time => time["value"]);
+	}
+	times.sort((a, b) => a - b);
 
-Chart.defaults.color = "#dee2e6"
-// Chart.defaults.borderColor = "#dee2e6"
-// Chart.defaults.backgroundColor = "#dee2e6"
-checkAuth(() => {
-	fetchData((rawdata) => {
-		window.all_times = rawdata;
-		window.current_session = "3x3";
-		const label = [];
-		const data = rawdata["3x3"].map(time => {
-			if ()
-				time["value"] / 1000
-		});
-		for (let i = 1; i <= data.length; i++) {
-			label.push(i);
-		}
+	let sum = 0;
+	for (let i = 1; i < (x - 1); i++) {
+		sum += times[i];
+	}
+	return sum / (x - 2);
+}
 
-		new Chart(ctx, {
-			type: 'line',
-			data: {
-				labels: label,
-				datasets: [{
-					label: 'Single',
-					data: data,
-					borderWidth: 1,
-					radius: 2
-				}]
-			},
-			options: {
-				// maintainAspectRatio: true,
-				plugins: {
-					title: {
-						display: true,
-						text: "hello"
-					}
-				},
-				scales: {
-					x: {
-						title: {
-							text: "Solve No.",
-							display: true,
-						}
-					},
-					y: {
-						title: {
-							text: "Time (s)",
-							display: true,
-						},
-						beginAtZero: true
-					}
-				}
-			}
-		});
-	})
-})
+export { getAoX, getBest }

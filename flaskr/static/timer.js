@@ -10,7 +10,7 @@ window.current_time_index;
 checkAuth(() => {
 	fetchData((data) => {
 		Object.assign(window.all_times, data);
-		ui.updateStats(getBest(), getAoX(5), getAoX(12));
+		ui.updateStats();
 		ui.updateTable();
 		ui.updateSessions();
 	})
@@ -24,7 +24,7 @@ function addTime(time) {
 	postNewTime(newTime);
 
 	ui.updateTable();
-	ui.updateStats(getBest(), getAoX(5), getAoX(12));
+	ui.updateStats();
 }
 
 function deleteTime(index) {
@@ -35,7 +35,7 @@ function deleteTime(index) {
 	postDeleteTime(time);
 
 	ui.updateTable();
-	ui.updateStats(getBest(), getAoX(5), getAoX(12));
+	ui.updateStats();
 }
 
 function addModifier(time_index, modifier, toggle = false) {
@@ -64,7 +64,7 @@ function changeSession(session) {
 	window.current_session = session;
 
 	console.log("erm hello?")
-	ui.updateStats(getBest(), getAoX(5), getAoX(12));
+	ui.updateStats();
 	ui.updateTable();
 	ui.updateSessions();
 
@@ -105,29 +105,6 @@ ui.setOnClickTableRow((index) => {
 	window.current_time_index = index;
 	ui.updateModal();
 })
-
-export function getBest() {
-	const current_times = window.all_times[window.current_session];
-	if (current_times.length == 0) return null;
-	const timesOnlyArray = current_times.map(time => time["value"]);
-	return Math.min(...timesOnlyArray);
-}
-
-export function getAoX(x) {
-	const current_times = window.all_times[window.current_session];
-	if (current_times.length < x) {
-		return null;
-	}
-	const lastX = current_times.slice(-x).map(time => time["value"]);
-	lastX.sort((a, b) => a - b);
-
-	let sum = 0;
-	for (let i = 1; i < (x - 1); i++) {
-		sum += lastX[i];
-	}
-	return sum / (x - 2);
-}
-
 
 // ALL TIMER RELATED STUFF
 let startTime, updateInterval, timeoutId, timerState = "finished";

@@ -1,3 +1,5 @@
+import { getAoX, getBest } from "./stats.js";
+
 // SESSION ELEMENTS
 const sessionText = document.getElementById("session-text");
 const sessionDropdown = document.getElementById("session-dropdown");
@@ -48,7 +50,10 @@ function updateTimer(startTime) {
 const bestText = document.getElementById("best-text")
 const ao5Text = document.getElementById("ao5-text")
 const ao12Text = document.getElementById("ao12-text")
-function updateStats(best, ao5, ao12) {
+function updateStats() {
+	const best = getBest();
+	const ao5 = getAoX(5);
+	const ao12 = getAoX(12);
 	const bestStr = best ? formatMilliseconds(best) : "--";
 	const ao5Str = ao5 ? formatMilliseconds(ao5) : "--";
 	const ao12Str = ao12 ? formatMilliseconds(ao12) : "--";
