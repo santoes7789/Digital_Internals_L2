@@ -1,10 +1,12 @@
 import * as ui from "./timer_ui.js"
 import { checkAuth, fetchData, postDeleteTime, postNewTime, putNewTime } from "./network.js";
+import { randomScrambleForEvent } from "https://cdn.cubing.net/v0/js/cubing/scramble";
 
 window.all_times = { "3x3": [] }
 window.current_session = "3x3";
 window.current_time_index;
 
+newScramble();
 
 // CHECK IF USER IS AUTHENTICATED
 checkAuth(() => {
@@ -176,7 +178,12 @@ function stopTimer() {
 		timerBackground.style.zIndex = 0;
 	}, { once: true })
 	addTime(time);
-	clearInterval(updateInterval)
-
+	clearInterval(updateInterval);
+	newScramble();
 }
 
+async function newScramble() {
+	const scramble = await randomScrambleForEvent("333");
+	const scramble_text = document.getElementById("scramble-text");
+	scramble_text.textContent = scramble.toString();
+}
