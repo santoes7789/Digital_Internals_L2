@@ -50,13 +50,13 @@ checkAuth(() => {
 						label: 'Average of 5',
 						data: data_ao5,
 						borderWidth: 1,
-						radius: 2
+						radius: 1
 					},
 					{
 						label: 'Average of 12',
 						data: data_ao12,
 						borderWidth: 1,
-						radius: 2
+						radius: 1
 					},
 
 				]
