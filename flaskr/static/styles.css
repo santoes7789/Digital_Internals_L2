@@ -43,6 +43,10 @@ p {
 	font-size: 0.8rem;
 }
 
+.mt-6 {
+	margin-top: 7rem;
+}
+
 .no-min-width {
 	min-width: 0;
 }
