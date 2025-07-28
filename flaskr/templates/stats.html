@@ -1,12 +1,14 @@
 {% extends 'base.html' %}
 
 {% block content %}
-	<div class="d-flex justify-content-center align-items-center vw-100 vh-100 fixed-top z-0">
 	{% if user.is_authenticated %}
-		<div class="d-flex justify-content-center vw-100 vh-100">
-			<canvas id="myChart"></canvas>
+		<div class="d-flex justify-content-center vw-100">
+			<div class="w-50">
+				<canvas id="myChart"></canvas>
+			</div>
 		</div>
-		<div class="position-fixed d-flex bottom-0 vw-100 justify-content-center">
+
+		<div class="position-fixed d-flex bg-body bottom-0 vw-100 justify-content-center">
 			<div class="element-container border-bottom border-primary-subtle">
 				<div class="dropup">
 					<p class="d-inline"> &nbsp;Session:</p>
@@ -15,10 +17,10 @@
 
 					<ul class="session-dropdown-container dropdown-menu no-min-width p-1">
 						<li>
-						<div class="input-group">
-							<input id="add-session-input" type="text" class="form-control m-0" placeholder="New Session">
-							<button id="add-session-btn" class="btn btn-outline-primary" type="button">+</button>
-						</div>
+							<div class="input-group">
+								<input id="add-session-input" type="text" class="form-control m-0" placeholder="New Session">
+								<button id="add-session-btn" class="btn btn-outline-primary" type="button">+</button>
+							</div>
 						</li>
 						<li><hr class="dropdown-divider"></li>
 						<div id="session-dropdown">
@@ -30,8 +32,9 @@
 
 		<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 		<script type="module" src="static/stats.js"></script>
-	{% else %}
-		<h1>Please log in to view your statistics!</h1>
+		{% else %}
+		<div class="d-flex justify-content-center align-items-center vw-100 vh-100 fixed-top z-0">
+			<h1>Please log in to view your statistics!</h1>
+		</div>
 	{% endif %}
-	</div>
 {% endblock %}

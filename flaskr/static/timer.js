@@ -41,18 +41,13 @@ function deleteTime(index) {
 function addModifier(time_index, modifier, toggle = false) {
 	const current_times = window.all_times[window.current_session];
 
-	const curr_mods = current_times.at(time_index)["modifiers"];
-	let mods = curr_mods ? curr_mods.split(",") : [];
+	const mod = current_times.at(time_index)["modifiers"];
 
-	if (!mods.includes(modifier)) {
-		mods.push(modifier);
+	if (mod != modifier) {
+		current_times.at(time_index).modifiers = modifier;
 	} else if (toggle) {
-		mods = mods.filter(m => m !== modifier);
+		current_times.at(time_index).modifiers = "";
 	}
-
-	mods.sort();
-
-	current_times.at(time_index).modifiers = mods.join();
 
 	putNewTime(current_times.at(time_index));
 
@@ -111,14 +106,14 @@ ui.setOnClickTableRow((index) => {
 	ui.updateModal();
 })
 
-function getBest() {
+export function getBest() {
 	const current_times = window.all_times[window.current_session];
 	if (current_times.length == 0) return null;
 	const timesOnlyArray = current_times.map(time => time["value"]);
 	return Math.min(...timesOnlyArray);
 }
 
-function getAoX(x) {
+export function getAoX(x) {
 	const current_times = window.all_times[window.current_session];
 	if (current_times.length < x) {
 		return null;

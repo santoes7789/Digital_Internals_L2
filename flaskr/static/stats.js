@@ -2,39 +2,53 @@ import { checkAuth, fetchData } from "./network.js";
 
 const ctx = document.getElementById('myChart');
 
-
-// Chart.defaults.font.size = 10;
-// const data = {
-// 	labels: [],
-// 	datasets: [{
-// 		label: window.current_session,
-// 		data: [],
-// 	}]
-// };
-
+Chart.defaults.color = "#dee2e6"
+// Chart.defaults.borderColor = "#dee2e6"
+// Chart.defaults.backgroundColor = "#dee2e6"
 checkAuth(() => {
 	fetchData((rawdata) => {
+		window.all_times = rawdata;
+		window.current_session = "3x3";
 		const label = [];
-		const data = rawdata["3x3"].map(time => time["value"] / 1000);
+		const data = rawdata["3x3"].map(time => {
+			if ()
+				time["value"] / 1000
+		});
 		for (let i = 1; i <= data.length; i++) {
 			label.push(i);
 		}
-
 
 		new Chart(ctx, {
 			type: 'line',
 			data: {
 				labels: label,
 				datasets: [{
-					label: '3x3',
+					label: 'Single',
 					data: data,
-					// borderWidth: 1
+					borderWidth: 1,
+					radius: 2
 				}]
 			},
 			options: {
-				maintainAspectRatio: true,
+				// maintainAspectRatio: true,
+				plugins: {
+					title: {
+						display: true,
+						text: "hello"
+					}
+				},
 				scales: {
+					x: {
+						title: {
+							text: "Solve No.",
+							display: true,
+						}
+					},
 					y: {
+						title: {
+							text: "Time (s)",
+							display: true,
+						},
 						beginAtZero: true
 					}
 				}
@@ -42,16 +56,3 @@ checkAuth(() => {
 		});
 	})
 })
-function updateChart() {
-	const raw_data = window.current_times.map(time => time["value"] / 1000);
-	chart.data.datasets[0].data = raw_data;
-	chart.data.labels = [];
-	for (let i = 1; i <= raw_data.length; i++) {
-		chart.data.labels.push(i);
-	}
-
-	chart.update();
-
-	console.log(raw_data)
-
-}

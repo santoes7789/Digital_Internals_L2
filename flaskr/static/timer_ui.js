@@ -77,7 +77,7 @@ function updateTable() {
 		const newRow = table.insertRow(0);
 
 		const time = timeToString(current_times.at(i));
-		const mods = current_times.at(i)["modifiers"].split(",");
+		const mod = current_times.at(i)["modifiers"];
 
 		newRow.style.cursor = "pointer";
 		newRow.setAttribute("data-bs-toggle", "modal");
@@ -89,7 +89,7 @@ function updateTable() {
 
 		indexCell.textContent = i + 1;
 		timeCell.textContent = time;
-		if (mods.includes("dnf")) {
+		if (mod == "dnf") {
 			timeCell.textContent = "DNF";
 		}
 
@@ -119,19 +119,20 @@ function updateModal() {
 	modalTitle.textContent = "Solve No. " + (window.current_time_index + 1);
 	timeHeading.textContent = timeToString(current_time_selected);
 
-	const mods = current_time_selected["modifiers"].split(",");
+	const mod = current_time_selected["modifiers"];
 
-	const modifiers = [];
-	if (mods.includes("dnf")) {
-		modifiers.push("Did not finish");
+
+	modifierText.textContent = "";
+	if (mod == "dnf") {
+		modifierText.textContent = "Did not finish";
 		dnfBtn.classList.remove("btn-outline-primary");
 		dnfBtn.classList.add("btn-primary");
 	} else {
 		dnfBtn.classList.add("btn-outline-primary");
 		dnfBtn.classList.remove("btn-primary");
 	}
-	if (mods.includes("+2")) {
-		modifiers.push("+2");
+	if (mod == "+2") {
+		modifierText.textContent = "+2";
 		plusTwoBtn.classList.remove("btn-outline-primary");
 		plusTwoBtn.classList.add("btn-primary");
 	} else {
@@ -139,7 +140,6 @@ function updateModal() {
 		plusTwoBtn.classList.remove("btn-primary");
 	}
 
-	modifierText.textContent = modifiers.join(", ");
 
 	const date = new Date(current_time_selected["timestamp"]);
 	dateText.textContent = date.toDateString();
@@ -151,8 +151,7 @@ function updateModal() {
 function timeToString(time) {
 	let milliseconds = time["value"];
 
-	let mods = time["modifiers"].split(",");
-	if (mods.includes("+2")) {
+	if (time["modifiers"] == "+2") {
 		milliseconds += 2000;
 		return formatMilliseconds(milliseconds) + "+";
 	} else {
