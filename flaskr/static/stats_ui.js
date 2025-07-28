@@ -18,8 +18,13 @@ checkAuth(() => {
 		const data_ao5 = [];
 		const data_ao12 = [];
 		for (let i = 0; i < session_times.length; i++) {
-			data_single.push((session_times[i]["modifiers"] != "dnf")
-				? session_times[i]["value"] / 1000 : null);
+			if (session_times[i]["modifiers"] == "dnf") {
+				data_single.push(null);
+			} else if (session_times[i]["modifiers"] == "+2") {
+				data_single.push(session_times[i]["value"] / 1000 + 2);
+			} else {
+				data_single.push(session_times[i]["value"] / 1000);
+			}
 
 			const ao5 = getAoX(5, i);
 			data_ao5.push(ao5 ? ao5 / 1000 : null);

@@ -5,17 +5,19 @@ function getBest() {
 	return Math.min(...timesOnlyArray);
 }
 
-function getAoX(x, index = -1) {
+function getAoX(x, index) {
 	const current_times = window.all_times[window.current_session];
+	if (index == undefined) {
+		index = current_times.length - 1;
+	}
 	if (current_times.length < x || index - x + 1 < 0) {
 		return null;
 	}
 	let times;
-	if (index != -1) {
-		times = current_times.slice(index - x + 1, index + 1).map(time => time["value"]);
-	} else {
-		times = current_times.slice(-x).map(time => time["value"]);
-	}
+	times = current_times.slice(index - x + 1, index + 1).map((time) => {
+		const mod = (time["modifiers"] == "+2") ? 2000 : 0;
+		return time["value"] + mod;
+	});
 	times.sort((a, b) => a - b);
 
 	let sum = 0;
