@@ -1,15 +1,13 @@
-import * as ui from "./ui.js"
+import * as ui from "./timer_ui.js"
 import { checkAuth, fetchData, postDeleteTime, postNewTime, putNewTime } from "./network.js";
 
 window.all_times = { "3x3": [] }
 window.current_session = "3x3";
 window.current_time_index;
-window.is_authenticated = false;
 
 
 // CHECK IF USER IS AUTHENTICATED
-checkAuth((is_authenticated) => {
-	window.is_authenticated = is_authenticated;
+checkAuth(() => {
 	fetchData((data) => {
 		Object.assign(window.all_times, data);
 		ui.updateStats(getBest(), getAoX(5), getAoX(12));
@@ -210,30 +208,3 @@ function stopTimer() {
 
 }
 
-// const ctx = document.getElementById('myChart');
-//
-//
-// Chart.defaults.font.size = 10;
-// const data = {
-// 	labels: [],
-// 	datasets: [{
-// 		label: window.current_session,
-// 		data: [],
-// 	}]
-// };
-//
-// const chart = new Chart(ctx, { type: "line", data: data });
-//
-// function updateChart() {
-// const raw_data = window.current_times.map(time => time["value"] / 1000);
-// chart.data.datasets[0].data = raw_data;
-// chart.data.labels = [];
-// for (let i = 1; i <= raw_data.length; i++) {
-// 	chart.data.labels.push(i);
-// }
-//
-// chart.update();
-//
-// console.log(raw_data)
-//
-// }

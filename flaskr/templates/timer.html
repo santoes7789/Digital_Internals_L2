@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block content %}
-  <div class="d-flex justify-content-center align-items-center vw-100 vh-100 position-fixed" id="timer-background">
+  <div class="d-flex justify-content-center align-items-center vw-100 vh-100 fixed-top" id="timer-background" style="z-index: 0;">
 		<h1 id="timer" class="position-fixed z-1">0<span class="text-primary">.</span>000</h1>
 		<div class="position-absolute z-0 w-100 h-100 bg-body fade" id="fading-bg"></div>
 	</div>

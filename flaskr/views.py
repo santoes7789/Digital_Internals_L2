@@ -12,6 +12,11 @@ def timer():
     return render_template("timer.html", user=current_user)
 
 
+@views.route("/stats")
+def stats():
+    return render_template("stats.html", user=current_user)
+
+
 @views.route("/times", methods=["POST", "GET", "DELETE", "PUT"])
 def times():
     if request.method == "POST":

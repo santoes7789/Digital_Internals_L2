@@ -10,12 +10,13 @@ function checkAuth(callback) {
 			if (is_authenticated) {
 				console.log("User is authenticated");
 			}
-			callback(is_authenticated)
+			window.is_authenticated = is_authenticated;
+			callback()
 		})
 }
 
 function fetchData(callback) {
-	if (!window.is_authenticated) return {};
+	if (!window.is_authenticated) return;
 
 	fetch("/times", {
 		method: "GET",
