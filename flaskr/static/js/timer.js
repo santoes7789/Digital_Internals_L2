@@ -141,10 +141,35 @@ document.addEventListener("keydown", function(event) {
 	}
 });
 
+document.addEventListener('touchstart', (event) => {
+	console.log("touch start");
+	const focused = document.activeElement === document.body
+	if (timerState == "finished") {
+		if (event.target.classList.contains("touch-starts-timer") && focused) {
+			waitTimer();
+		}
+	} else if (timerState == "active") {
+		stopTimer();
+	}
+});
+
 document.addEventListener("keyup", function(event) {
 	if (timerState == "waiting") {
 		resetTimer();
 	} else if (timerState == "ready" && event.code == "Space") {
+		startTimer();
+
+	} else if (timerState == "stopped") {
+		resetTimer();
+	}
+});
+
+document.addEventListener('touchend', (event) => {
+	console.log("touch end");
+	console.log(event.target);
+	if (timerState == "waiting") {
+		resetTimer();
+	} else if (timerState == "ready") {
 		startTimer();
 
 	} else if (timerState == "stopped") {
@@ -195,7 +220,6 @@ function stopTimer() {
 	clearInterval(updateInterval);
 	newScramble();
 }
-
 async function newScramble() {
 	const scramble = await randomScrambleForEvent("333");
 	const scramble_text = document.getElementById("scramble-text");
