@@ -1,42 +1,24 @@
-function checkAuth(callback) {
-	fetch("/check-auth", {
-		method: "GET",
-		headers: {
-			"Content-Type": "application/json",
-		},
-	}).then(response => response.json())
-		.then(data => {
-			const is_authenticated = data["authenticated"];
-			if (is_authenticated) {
-				console.log("User is authenticated");
-			}
-			window.is_authenticated = is_authenticated;
-			callback()
-		})
-}
-
-function fetchData(callback) {
-	if (!window.is_authenticated) return;
-
-	fetch("/times", {
+async function checkAuth() {
+	const response = await fetch("/check-auth", {
 		method: "GET",
 		headers: {
 			"Content-Type": "application/json",
 		},
 	})
-		.then(response => {
-			if (response.status == 200) {
-				return response.json();
-			} else {
-				callback({})
-			}
-		}).then(data => {
-			callback(data);
-		})
-		.catch(error => {
-			console.error("Error:", error);
-			callback({})
-		})
+	const data = await response.json();
+	return data["authenticated"];
+}
+
+async function fetchData() {
+	if (!window.is_authenticated) return;
+	const response = await fetch("/times", {
+		method: "GET",
+		headers: {
+			"Content-Type": "application/json",
+		},
+	})
+	const data = await response.json()
+	return data;
 }
 
 function postNewTime(newTime) {

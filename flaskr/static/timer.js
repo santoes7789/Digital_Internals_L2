@@ -9,20 +9,21 @@ window.current_time_index;
 newScramble();
 
 // CHECK IF USER IS AUTHENTICATED
-checkAuth(() => {
-	fetchData((data) => {
-		Object.assign(window.all_times, data);
-		ui.updateStats();
-		ui.updateTable();
-		ui.updateSessions();
-	})
+window.is_authenticated = await checkAuth();
+fetchData().then(data => {
+	Object.assign(window.all_times, data);
+	localStorage.setItem('times', JSON.stringify(window.all_times));
+	ui.updateStats();
+	ui.updateTable();
+	ui.updateSessions();
 })
-
 
 function addTime(time) {
 	const newTime = { "timestamp": Date.now(), "value": time, "modifiers": "" };
 	window.all_times[window.current_session].push(newTime);
 	newTime["session"] = window.current_session;
+
+	localStorage.setItem('times', JSON.stringify(window.all_times));
 	postNewTime(newTime);
 
 	ui.updateTable();
@@ -34,6 +35,8 @@ function deleteTime(index) {
 	const time = current_times.at(index);
 	if (index == -1) return;
 	current_times.splice(index, 1);
+
+	localStorage.setItem('times', JSON.stringify(window.all_times));
 	postDeleteTime(time);
 
 	ui.updateTable();
@@ -51,6 +54,7 @@ function addModifier(time_index, modifier, toggle = false) {
 		current_times.at(time_index).modifiers = "";
 	}
 
+	localStorage.setItem('times', JSON.stringify(window.all_times));
 	putNewTime(current_times.at(time_index));
 
 	ui.updateTable();
