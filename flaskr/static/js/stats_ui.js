@@ -100,7 +100,7 @@ function updateStats() {
 	ct.textContent = consistency.toFixed(2);
 
 	tt.innerHTML = "";
-	for (let i = 0; i < session_times.length; i++) {
+	for (let i = session_times.length - 1; i >= 0; i--) {
 		const time = document.createElement("div");
 		time.style.cursor = "pointer";
 		time.classList.add("time-entry");
