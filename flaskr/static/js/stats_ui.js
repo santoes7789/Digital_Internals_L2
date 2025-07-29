@@ -5,7 +5,7 @@ Chart.defaults.color = "#dee2e6"
 const ctx = document.getElementById('myChart');
 const storedTimes = JSON.parse(localStorage.getItem('times'));
 window.all_times = storedTimes;
-window.current_session = "3x3";
+window.current_session = sessionStorage.getItem("session");
 let session_times = window.all_times[window.current_session];
 updateSessions();
 

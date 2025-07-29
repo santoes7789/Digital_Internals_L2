@@ -3,7 +3,12 @@ import { checkAuth, fetchData, postDeleteTime, postNewTime, putNewTime } from ".
 import { randomScrambleForEvent } from "https://cdn.cubing.net/v0/js/cubing/scramble";
 
 window.all_times = { "3x3": [] }
-window.current_session = "3x3";
+window.current_session = sessionStorage.getItem("session");
+if (window.current_session == null) {
+	window.current_session = "3x3";
+	sessionStorage.setItem("session", window.current_session);
+}
+
 window.current_time_index;
 
 newScramble();
@@ -68,6 +73,7 @@ function addSession(session_name) {
 
 function changeSession(session) {
 	window.current_session = session;
+	sessionStorage.setItem("session", window.current_session);
 
 	console.log("erm hello?")
 	ui.updateStats();
