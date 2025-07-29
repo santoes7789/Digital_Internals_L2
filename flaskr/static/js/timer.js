@@ -2,6 +2,7 @@ import * as ui from "./timer_ui.js"
 import { checkAuth, fetchData, postDeleteTime, postNewTime, putNewTime } from "./network.js";
 import { randomScrambleForEvent } from "https://cdn.cubing.net/v0/js/cubing/scramble";
 
+let focused = true;
 window.all_times = { "3x3": [] }
 window.current_session = sessionStorage.getItem("session");
 if (window.current_session == null) {
@@ -100,9 +101,11 @@ dnfBtn.addEventListener("click", event => {
 })
 
 const addSessionBtn = document.getElementById("add-session-btn");
+const sessionInput = document.getElementById("add-session-input");
+
 addSessionBtn.addEventListener("click", event => {
-	const sessionName = document.getElementById("add-session-input").value;
-	document.getElementById("add-session-input").value = "";
+	const sessionName = sessionInput.value;
+	sessionInput.value = "";
 	if (sessionName.trim()) {
 		console.log("Creating session: ", sessionName);
 		addSession(sessionName);
@@ -126,8 +129,9 @@ const timerBackground = document.getElementById("timer-background");
 const timerFading = document.getElementById("fading-bg");
 
 document.addEventListener("keydown", function(event) {
+	const focused = document.activeElement === document.body
 	if (timerState == "finished") {
-		if (event.code == "Space") {
+		if (event.code == "Space" && focused) {
 			waitTimer();
 		} else if (event.shiftKey && event.code == "Backspace") {
 			deleteTime(window.all_times[window.current_session].length - 1);
