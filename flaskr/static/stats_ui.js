@@ -9,24 +9,36 @@ window.current_session = "3x3";
 let session_times = window.all_times[window.current_session];
 updateSessions();
 
+const sbt = document.getElementById("single-best-text");
+const a5bt = document.getElementById("ao5-best-text");
+const a12bt = document.getElementById("ao12-best-text");
 
 let label = [];
 let data_single = [];
 let data_ao5 = [];
 let data_ao12 = [];
 
+let best_single;
+let best_ao5;
+let best_ao12;
+
+
 const chart = createChart();
 
+calculateStats();
+updateStats();
+
 window.addEventListener("load", () => {
-	calculateStats();
-	console.log("hello");
-	updateChart();
+	setTimeout(() => {
+		updateChart();
+	}, 500);
 });
 
 function changeSession(session) {
 	window.current_session = session;
 	session_times = window.all_times[window.current_session];
-	calculateStats()
+	calculateStats();
+	updateStats();
 	updateChart();
 	updateSessions();
 }
@@ -47,12 +59,25 @@ function calculateStats() {
 		}
 
 		const ao5 = getAoX(5, i);
+
 		data_ao5.push(ao5 ? ao5 / 1000 : null);
 
 		const ao12 = getAoX(12, i);
 		data_ao12.push(ao12 ? ao12 / 1000 : null);
+
 		label.push(i + 1);
 	}
+
+	best_single = Math.min(...data_single);
+	best_ao5 = Math.min(...data_ao5.filter(x => x != null));
+	best_ao12 = Math.min(...data_ao12.filter(x => x != null));
+}
+
+function updateStats() {
+	console.log(best_single);
+	sbt.textContent = best_single;
+	a5bt.textContent = best_ao5;
+	a12bt.textContent = best_ao12;
 }
 
 function updateChart() {
@@ -123,10 +148,8 @@ function createChart() {
 
 function updateSessions() {
 	const sessionText = document.getElementById("session-text");
-	const sessionText2 = document.getElementById("session-text2");
 	const sessionDropdown = document.getElementById("session-dropdown");
 	sessionText.textContent = window.current_session;
-	sessionText2.textContent = window.current_session;
 	sessionDropdown.innerHTML = "";
 	for (const key in window.all_times) {
 		const newLi = document.createElement("li");

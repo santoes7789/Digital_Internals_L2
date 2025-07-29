@@ -67,6 +67,12 @@ p {
 
 }
 
+.hover-blue:hover {
+	--bs-text-opacity: 1;
+	color: rgba(var(--bs-primary-rgb), var(--bs-text-opacity));
+
+}
+
 #timer {
 	font-family: "Share Tech Mono";
 	/* font-family: "monospace"; */
