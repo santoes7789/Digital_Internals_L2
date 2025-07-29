@@ -51,6 +51,29 @@ p {
 	min-width: 0;
 }
 
+.mw-500px {
+	min-width: 500px;
+}
+
+.mh-250px {
+	max-height: 250px;
+}
+
+.time-entry {
+	max-width: 74px;
+	margin: 0.1rem;
+	text-align: center;
+	font-size: 0.7rem;
+	padding: 0.5rem 0.9rem;
+	border-radius: var(--bs-border-radius-sm);
+	border: var(--bs-border-width) var(--bs-border-style) var(--bs-border-color) !important;
+	transition: background-color 0.15s ease-in-out;
+}
+
+.time-entry:hover {
+	background-color: rgba(var(--bs-primary-rgb), 0.4);
+}
+
 .session-dropdown-container {
 	width: 200px;
 }
@@ -59,6 +82,14 @@ p {
 	--bs-text-opacity: 1;
 	color: rgba(var(--bs-primary-rgb), var(--bs-text-opacity));
 	opacity: .75;
+	flex-shrink: 0;
+}
+
+hr {
+	--bs-text-opacity: 1;
+	color: rgba(var(--bs-primary-rgb), var(--bs-text-opacity));
+	opacity: .75;
+	margin: 0 1rem;
 }
 
 .nav-link:hover {
@@ -70,7 +101,6 @@ p {
 .hover-blue:hover {
 	--bs-text-opacity: 1;
 	color: rgba(var(--bs-primary-rgb), var(--bs-text-opacity));
-
 }
 
 #timer {

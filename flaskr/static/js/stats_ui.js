@@ -14,6 +14,7 @@ const a5bt = document.getElementById("ao5-best-text");
 const a12bt = document.getElementById("ao12-best-text");
 const srt = document.getElementById("success-rate-text");
 const ct = document.getElementById("consistency-text");
+const tt = document.getElementById("times-table");
 
 let label = [];
 let data_single = [];
@@ -92,11 +93,20 @@ function calculateStats() {
 }
 
 function updateStats() {
-	sbt.textContent = best_single;
-	a5bt.textContent = best_ao5;
-	a12bt.textContent = best_ao12;
+	sbt.textContent = best_single.toFixed(3);
+	a5bt.textContent = best_ao5.toFixed(3);
+	a12bt.textContent = best_ao12.toFixed(3);
 	srt.textContent = success_rate.toFixed(2) + "%";
 	ct.textContent = consistency.toFixed(2);
+
+	tt.innerHTML = "";
+	for (let i = 0; i < session_times.length; i++) {
+		const time = document.createElement("div");
+		time.style.cursor = "pointer";
+		time.classList.add("time-entry");
+		time.textContent = timeToString(session_times[i]);
+		tt.appendChild(time);
+	}
 }
 
 function updateChart() {
@@ -137,7 +147,8 @@ function createChart() {
 		},
 		options: {
 			// animation: false,
-			// maintainAspectRatio: true,
+			responsive: true,
+			maintainAspectRatio: true,
 			scales: {
 				x: {
 					title: {
@@ -181,4 +192,36 @@ function updateSessions() {
 			changeSession(key);
 		})
 	}
+}
+
+function timeToString(time) {
+	let milliseconds = time["value"];
+
+	if (time["modifiers"] == "+2") {
+		milliseconds += 2000;
+		return formatMilliseconds(milliseconds) + "+";
+	} else {
+		return formatMilliseconds(milliseconds);
+	}
+}
+
+function formatMilliseconds(milli) {
+	const milliseconds = Math.floor(milli % 1000);
+	const seconds = Math.floor(milli / 1000) % 60;
+	const minutes = Math.floor(milli / 1000 / 60) % 60;
+	const hours = Math.floor(milliseconds / 1000 / 60 / 60);
+
+	let hoursStr = "";
+	let minutesStr = "";
+	let secondsStr = String(seconds) + ".";
+	let milliStr = String(milliseconds).padStart(3, "0");
+	if (minutes) {
+		minutesStr = String(minutes) + ":";
+		secondsStr = String(seconds).padStart(2, "0") + ".";
+	}
+	if (hours) {
+		hoursStr = String(hours) + ":"
+		minutesStr = String(minutes).padStart(2, "0") + ":";
+	}
+	return hoursStr + minutesStr + secondsStr + milliStr;
 }
