@@ -12,6 +12,8 @@ updateSessions();
 const sbt = document.getElementById("single-best-text");
 const a5bt = document.getElementById("ao5-best-text");
 const a12bt = document.getElementById("ao12-best-text");
+const srt = document.getElementById("success-rate-text");
+const ct = document.getElementById("consistency-text");
 
 let label = [];
 let data_single = [];
@@ -21,6 +23,8 @@ let data_ao12 = [];
 let best_single;
 let best_ao5;
 let best_ao12;
+let success_rate;
+let consistency;
 
 
 const chart = createChart();
@@ -49,13 +53,16 @@ function calculateStats() {
 	data_ao5 = [];
 	data_ao12 = [];
 
+	let count = 0;
 	for (let i = 0; i < session_times.length; i++) {
 		if (session_times[i]["modifiers"] == "dnf") {
 			data_single.push(null);
 		} else if (session_times[i]["modifiers"] == "+2") {
 			data_single.push(session_times[i]["value"] / 1000 + 2);
+			count++;
 		} else {
 			data_single.push(session_times[i]["value"] / 1000);
+			count++;
 		}
 
 		const ao5 = getAoX(5, i);
@@ -71,13 +78,25 @@ function calculateStats() {
 	best_single = Math.min(...data_single);
 	best_ao5 = Math.min(...data_ao5.filter(x => x != null));
 	best_ao12 = Math.min(...data_ao12.filter(x => x != null));
+
+	success_rate = count / session_times.length * 100;
+
+	// Mean (average)
+	const mean = data_single.reduce((a, b) => a + b, 0) / data_single.length;
+	// Calculate variance
+	const variance = data_single.reduce((sum, t) => sum + (t - mean) ** 2, 0) / data_single.length;
+	// Standard deviation
+	const stdDev = Math.sqrt(variance);
+	// Consistency = stdDev / mean
+	consistency = stdDev / mean;
 }
 
 function updateStats() {
-	console.log(best_single);
 	sbt.textContent = best_single;
 	a5bt.textContent = best_ao5;
 	a12bt.textContent = best_ao12;
+	srt.textContent = success_rate.toFixed(2) + "%";
+	ct.textContent = consistency.toFixed(2);
 }
 
 function updateChart() {
