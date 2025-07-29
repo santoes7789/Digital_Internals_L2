@@ -119,7 +119,7 @@ function updateChart() {
 
 function createChart() {
 	return new Chart(ctx, {
-		type: 'line',
+		type: "line",
 		data: {
 			labels: label,
 			datasets: [
@@ -167,7 +167,7 @@ function createChart() {
 					grid: {
 						color: "#dee2e6bf"
 					},
-					beginAtZero: true
+					// beginAtZero: true
 				}
 			}
 		}

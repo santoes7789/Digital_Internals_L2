@@ -2,9 +2,9 @@
 
 {% block content %}
 	{% if user.is_authenticated %}
-		<div class="fixed-top d-flex justify-content-center vw-100 vh-100 z-0 pt-5">
+		<div class="d-flex justify-content-center vw-100 z-0 pt-3">
 			<div class="w-50 mw-500px">
-				<div class="dropdown my-3 text-center">
+				<div class="dropdown text-center">
 					<h2 class="d-inline">Statistics for: </h2>
 					<h1 id="session-text" type="button" class="d-inline dropdown-toggle hover-blue fw-bold" data-bs-toggle="dropdown">3x3</h1>
 					<ul class="session-dropdown-container dropdown-menu no-min-width p-1">
@@ -12,8 +12,8 @@
 						</div>
 					</ul>
 				</div>
-				<canvas id="myChart"></canvas>
 
+				<canvas id="myChart"></canvas>
 
 
 				<div class="d-flex">
