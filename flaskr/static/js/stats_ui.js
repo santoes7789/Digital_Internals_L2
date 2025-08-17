@@ -12,6 +12,9 @@ updateSessions();
 const sbt = document.getElementById("single-best-text");
 const a5bt = document.getElementById("ao5-best-text");
 const a12bt = document.getElementById("ao12-best-text");
+const sct = document.getElementById("single-current-text");
+const a5ct = document.getElementById("ao5-current-text");
+const a12ct = document.getElementById("ao12-current-text");
 const srt = document.getElementById("success-rate-text");
 const ct = document.getElementById("consistency-text");
 const tt = document.getElementById("times-table");
@@ -24,6 +27,10 @@ let data_ao12 = [];
 let best_single;
 let best_ao5;
 let best_ao12;
+
+let current_single;
+let current_ao5;
+let current_ao12;
 let success_rate;
 let consistency;
 
@@ -80,6 +87,10 @@ function calculateStats() {
 	best_ao5 = Math.min(...data_ao5.filter(x => x != null));
 	best_ao12 = Math.min(...data_ao12.filter(x => x != null));
 
+    current_single = data_single[data_single.length - 1];
+    current_ao5 = formatMilliseconds( getAoX(5));
+    current_ao12 = formatMilliseconds(getAoX(12));
+
 	success_rate = count / session_times.length * 100;
 
 	// Mean (average)
@@ -98,6 +109,11 @@ function updateStats() {
 	a12bt.textContent = best_ao12.toFixed(3);
 	srt.textContent = success_rate.toFixed(2) + "%";
 	ct.textContent = consistency.toFixed(2);
+
+    sct.textContent = current_single ? current_single: "--";
+    a5ct.textContent = current_ao5 ? current_ao5: "--";
+    a12ct.textContent = current_ao12 ? current_ao12: "--";
+
 
 	tt.innerHTML = "";
 	for (let i = session_times.length - 1; i >= 0; i--) {
