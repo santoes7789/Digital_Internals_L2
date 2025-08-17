@@ -30,8 +30,8 @@ p {
 }
 
 .element-container {
-	margin: 1rem;
-	padding: 1rem;
+	margin: 2rem;
+	padding: 2rem;
 }
 
 .timetable-wrapper {
@@ -106,5 +106,5 @@ hr {
 #timer {
 	font-family: "Share Tech Mono";
 	/* font-family: "monospace"; */
-	font-size: 4rem;
+	font-size: 5.5rem;
 }
